@@ -2,6 +2,9 @@
 #define STRINGTOKENIZER_H
 #include <string>
 
+int getNumber(int low, int high, std::string message);
+
+
 /** The string_tokenizer class splits a string into a sequence of subtrings,
 called tokens, separated by delimeters.
 */
@@ -64,7 +67,7 @@ private:
 	std::string the_delim;
 	/** The index of the start of the next token */
 	size_t start;
-	/** The index of the end of the next token*/
+	/** The index of the end of the next token */
 	size_t end;
 };
 

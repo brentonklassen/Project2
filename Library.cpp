@@ -64,7 +64,7 @@ void Library::ReadEmployeesFromFile()
 	}
 	fin.close();
 }
-// Returns Date of next batch of actions
+
 // if end of file has been reached return empty Date
 void Library::ReadActionsFromFile() // Evan
 {
@@ -123,15 +123,3 @@ void Library::ArchivePeriodical(Periodical& p) // Evan
 	circulatingPeriodicals.erase(p.getBarcode());
 	archivedPeriodicals[p.getBarcode()] = p;
 }
-
-/*
-void Library::removeArchivedPeriodical(Periodical& p) // Evan
-{
-	archivedPeriodicals.erase(p.getBarcode());
-}
-
-void Library::removeCirculatingPeriodical(Periodical& p) // Evan
-{
-    circulatingPeriodicals.erase(p.getBarcode());
-}
-*/
