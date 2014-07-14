@@ -10,7 +10,7 @@ Library class header
 
 class Library { //implemented by Jordan
 public:
-	void ReturnToLibrary(Periodical& p, Employee& e, Date currentDate);
+	void ReturnToLibrary(Periodical&, Employee&, Date);
 	void checkoutPeriodical(Periodical& p, Employee& e, Date currentDate);
 	void ExchangePeriodical(Periodical& p, Employee& e1, Date currentDate);
 	void ReadPeriodicalsFromFile();

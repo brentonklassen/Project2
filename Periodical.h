@@ -48,6 +48,10 @@ public:
 	bool getCheckOutStatus() { return isCheckedOut; }
 	int getBarcode() const { return barcode; }
 
+	bool operator ==(const Periodical& other){
+		return barcode = other.barcode;
+	}
+
 	bool morePeopleInQueue(){ return !empQueue.empty(); }
 
 	void passToNextEmployee(Date currentDate){

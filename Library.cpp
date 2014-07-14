@@ -5,7 +5,7 @@
 #include "HelperFunctions.h"
 using namespace std;
 
-/*
+
 void Library::ReturnToLibrary(Periodical& p, Employee& e, Date currentDate)
 {//Jordan
 	p.setCheckedBool(false);
@@ -20,11 +20,8 @@ void Library::ReturnToLibrary(Periodical& p, Employee& e, Date currentDate)
     {
         ArchivePeriodical(p);
     }
-	e.removeBookFromList(p.getBarcode());
-	e.setReliability(0); //fix later
-
 }
-*/
+
 
 void Library::UpdateEmployeeReliability(Employee& e, Periodical& p, Date& currentDate)
 {//Jordan
@@ -136,13 +133,22 @@ void Library::buildPriorityQueues(Date currentDate){
 	}
 }
 
-/*
+
 void Library::ArchivePeriodical(Periodical& p) // Evan
 {
-	map<int, Periodical>::iterator iter = archivedPeriodicals.begin();
-	archivedPeriodicals.insert(iter, pair <int, Periodical>(p.getBarcode(), p));
+	for (vector<Periodical>::iterator itr = circulatingPeriodicals.begin(); itr != circulatingPeriodicals.end(); itr++){
+		if (*itr == p){
+			circulatingPeriodicals.erase(itr);
+		}
+		else {
+			throw::exception("The periodical was not circulating");
+		}
+	}
+
+	archivedPeriodicals.push_back(p);
 }
 
+/*
 void Library::removeArchivedPeriodical(Periodical& p) // Evan
 {
 	archivedPeriodicals.erase(p.getBarcode());
