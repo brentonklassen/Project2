@@ -8,7 +8,7 @@ using namespace std;
 
 void Library::ReturnToLibrary(Periodical& p, Employee& e, Date currentDate)
 {//Jordan
-	p.setCheckedBool(false);
+	p.setCheckedOut(false);
 	e.removeBookFromList(p.getBarcode());
 	e.updateReliability(currentDate, p.getReturnDate());
 
@@ -103,12 +103,14 @@ void Library::ReadActionsFromFile() // Evan
 			for (vector<Periodical>::iterator itr = circulatingPeriodicals.begin(); itr != circulatingPeriodicals.end(); itr++){
 				if (itr->getBarcode() == aBarcode){
 					per = *itr;
+					break;
 				}
 			}
 
 			for (vector<Employee>::iterator itr = employees.begin(); itr != employees.end(); itr++){
 				if (itr->getEmpname() == name){
 					emp = *itr;
+					break;
 				}
 			}
 

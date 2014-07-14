@@ -23,7 +23,6 @@ public:
 
 	void removeCirculatingPeriodical(Periodical& p);
     map <int,Employee> UpdateQueue(Periodical& p, Date currentDate);
-    void UpdateEmployeeReliability(Employee& e, Periodical& p, Date& currentDate);
 
 
 private:

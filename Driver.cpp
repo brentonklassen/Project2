@@ -10,9 +10,5 @@ int main()
 	myLib.buildPriorityQueues(Date("7/13/2014"));
 	myLib.ReadActionsFromFile();
 
-	/* BK - checkoutperiodical, updateemployeereliability, updatequeue */
-
-	system("pause");
-
     return 0;
 }

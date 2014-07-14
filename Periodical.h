@@ -7,6 +7,7 @@ Periodical class header
 #include <map>
 #include <queue>
 #include <stack>
+#include <iostream>
 #include "Date.h"
 #include "Employee.h"
 
@@ -31,7 +32,7 @@ public:
 		returnDate(p.returnDate), maxCheckoutDuration(p.maxCheckoutDuration) {}
 
 	//setters
-	void setCheckedBool(bool isItChecked) { isCheckedOut = isItChecked; }
+	void setCheckedOut(bool isItChecked) { isCheckedOut = isItChecked; }
 	void setCheckOutDate(Date& aDate) { checkOutDate = aDate; }
 	void setReturnDate()
 	{
@@ -71,9 +72,13 @@ public:
 				throw::exception("All employees were on vacation");
 			}
 			else {
-				empQueue.top()->addBookToList(barcode);
-				// how do we recor the date?
+				checkOutDate = currentDate;
+				setReturnDate();
 				// should we record who currently has the book?
+
+				cout << empQueue.top()->getEmpname() << " got " << name << endl;
+
+				empQueue.top()->addBookToList(barcode);
 				empQueue.pop();
 			}
 
@@ -87,12 +92,9 @@ public:
 
 	struct EmployeeComparer{ //Brenton
 		bool operator()(const Employee* emp1, const Employee* emp2){
-            //NB! higher reliability is actually a lower reliability. 0 is highest reliability
-            //so we want the higher priority items to be placed in the rear of the line
-            //because they are actually LESS reliable -Jordan, per Prof. Kuhail e-mail
 			int emp1priority = emp1->getWaitingTime() - emp1->getLateDays() - emp1->getNumberOfBooks();
 			int emp2priority = emp2->getWaitingTime() - emp2->getLateDays() - emp2->getNumberOfBooks();
-			return emp1priority > emp2priority;
+			return emp1priority < emp2priority;
 		}
 	};
 
