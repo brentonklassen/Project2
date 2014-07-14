@@ -10,7 +10,7 @@ void Library::ReturnToLibrary(Periodical& p, Employee& e, Date currentDate)
 {//Jordan
 	p.setCheckedBool(false);
 	e.removeBookFromList(p.getBarcode());
-    UpdateEmployeeReliability(e, p, currentDate);
+	e.updateReliability(currentDate, p.getReturnDate());
 
 	if (p.morePeopleInQueue())
 	{
@@ -20,23 +20,6 @@ void Library::ReturnToLibrary(Periodical& p, Employee& e, Date currentDate)
     {
         ArchivePeriodical(p);
     }
-}
-
-
-void Library::UpdateEmployeeReliability(Employee& e, Periodical& p, Date& currentDate)
-{//Jordan
-    if (currentDate > p.getReturnDate())
-	{
-		e.setReliability(e.getReliability() + (currentDate - p.getReturnDate()));
-	}
-	else
-	{
-		e.setReliability(e.getReliability() - (currentDate - p.getReturnDate()));
-        if (e.getReliability() < 0)
-        {
-            e.setReliability(0);
-        }
-	}
 }
 
 
@@ -114,9 +97,23 @@ void Library::ReadActionsFromFile() // Evan
 			name = trim(st.next_token());
 			action = trim(st.next_token());
 			aBarcode = stoi(trim(st.next_token()));
+			Periodical per;
+			Employee emp;
+
+			for (vector<Periodical>::iterator itr = circulatingPeriodicals.begin(); itr != circulatingPeriodicals.end(); itr++){
+				if (itr->getBarcode() == aBarcode){
+					per = *itr;
+				}
+			}
+
+			for (vector<Employee>::iterator itr = employees.begin(); itr != employees.end(); itr++){
+				if (itr->getEmpname() == name){
+					emp = *itr;
+				}
+			}
 
 			if (action == "RETURN"){
-				//ReturnToLibrary(circulatingPeriodicals[aBarcode], employees[name], currentDate);
+				ReturnToLibrary(per, emp, currentDate);
 			}
 			else {
 				throw::exception("Invalid action call from file");

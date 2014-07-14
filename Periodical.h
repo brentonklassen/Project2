@@ -37,7 +37,7 @@ public:
 	{
 		Date temp = checkOutDate;
 		temp.add_days(maxCheckoutDuration);
-		returnDate = checkOutDate;
+		returnDate = temp;
 	}
 	void setMaxCheckoutDur(int& dur) { maxCheckoutDuration = dur; }
 
@@ -90,8 +90,8 @@ public:
             //NB! higher reliability is actually a lower reliability. 0 is highest reliability
             //so we want the higher priority items to be placed in the rear of the line
             //because they are actually LESS reliable -Jordan, per Prof. Kuhail e-mail
-			int emp1priority = emp1->getReliability() - emp1->getWaitingTime();
-			int emp2priority = emp2->getReliability() - emp2->getWaitingTime();
+			int emp1priority = emp1->getWaitingTime() - emp1->getLateDays() - emp1->getNumberOfBooks();
+			int emp2priority = emp2->getWaitingTime() - emp2->getLateDays() - emp2->getNumberOfBooks();
 			return emp1priority > emp2priority;
 		}
 	};

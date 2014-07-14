@@ -14,7 +14,7 @@ using namespace std;
 class Employee { //implemented by Jordan
 public:
 	//default constructor
-	Employee() : reliability(), empname(), vacationStart(Date()), vacationEnd(Date()), waiting_time() {}
+	Employee() : lateDays(), empname(), vacationStart(Date()), vacationEnd(Date()), waiting_time() {}
 
 	/*
 	//full-argument constructor
@@ -23,15 +23,14 @@ public:
 	vacationEnd(aVacEnd), waiting_time(aWaitTime) {}
 	*/
 
-	Employee(int aReliability, string aName, Date aVacStart, Date aVacEnd, int aWaitTime)
-		: reliability(aReliability), empname(aName), vacationStart(aVacStart), vacationEnd(aVacEnd), waiting_time(aWaitTime){}
+	Employee(int lateDays, string aName, Date aVacStart, Date aVacEnd, int aWaitTime)
+		: lateDays(lateDays), empname(aName), vacationStart(aVacStart), vacationEnd(aVacEnd), waiting_time(aWaitTime){}
 
 	//copy constructor
-	Employee(const Employee& e) : reliability(e.reliability), empname(e.empname),
+	Employee(const Employee& e) : lateDays(e.lateDays), empname(e.empname),
 		vacationStart(e.vacationStart), vacationEnd(e.vacationEnd), waiting_time(e.waiting_time) {}
 
 
-	void setReliability(const int& r) { reliability = r; }
 	void setVacationStart(const Date& d) { vacationStart = d; }
 	void setVacationEnd(const Date& d) { vacationEnd = d; }
 	void setWaitingTime(const int& t) { waiting_time = t; }
@@ -53,18 +52,22 @@ public:
 	//getters
 	Date getVacationStart() const { return vacationStart; }
 	Date getVacationEnd() const { return vacationEnd; }
-	int getReliability() const { return reliability; }
 	string getEmpname() const { return empname; }
 	int getWaitingTime() const { return waiting_time; }
-	int getLateDays() { return 0; }
+	int getLateDays() const { return lateDays; }
+	int getNumberOfBooks() const { return BookListByID.size(); }
 
 	bool isVacationing(Date currentDate){
 		return currentDate > getVacationStart() && currentDate < getVacationEnd();
 	}
 
+	void updateReliability(Date currentDate, Date dueDate){
+		lateDays += dueDate - currentDate;
+	}
+
 private:
 	string empname;
-	int reliability;
+	int lateDays;
 	Date vacationStart;
 	Date vacationEnd;
 	vector<int> BookListByID;
