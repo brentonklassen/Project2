@@ -16,13 +16,7 @@ public:
 	//default constructor
 	Employee() : lateDays(), empname(), vacationStart(Date()), vacationEnd(Date()), waiting_time() {}
 
-	/*
-	//full-argument constructor
-	Employee(int aPriority, int aReliability, string aName, Date aVacStart, Date aVacEnd, int aWaitTime) :
-	priority(aPriority), reliability(aReliability), empname(aName), vacationStart(aVacStart),
-	vacationEnd(aVacEnd), waiting_time(aWaitTime) {}
-	*/
-
+	//argument constructor
 	Employee(int lateDays, string aName, Date aVacStart, Date aVacEnd, int aWaitTime)
 		: lateDays(lateDays), empname(aName), vacationStart(aVacStart), vacationEnd(aVacEnd), waiting_time(aWaitTime){}
 
@@ -52,7 +46,7 @@ public:
 	//getters
 	Date getVacationStart() const { return vacationStart; }
 	Date getVacationEnd() const { return vacationEnd; }
-	string getEmpname() const { return empname; }
+	string getName() const { return empname; }
 	int getWaitingTime() const { return waiting_time; }
 	int getLateDays() const { return lateDays; }
 	int getNumberOfBooks() const { return books.size(); }

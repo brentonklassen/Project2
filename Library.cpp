@@ -113,7 +113,7 @@ void Library::buildPriorityQueues(Date currentDate){
 	for (map<string,Periodical>::iterator itr = circulatingPeriodicals.begin(); itr != circulatingPeriodicals.end(); itr++){
 		itr->second.generateEmpQueue(employees);
 		Employee firstEmployee = itr->second.passToNextEmployee(currentDate);
-		employees[firstEmployee.getEmpname()] = firstEmployee;  // this updates the employee map with the new employee information
+		employees[firstEmployee.getName()] = firstEmployee;  // this updates the employee map with the new employee information
 	}
 }
 

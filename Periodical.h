@@ -77,7 +77,7 @@ public:
 				setReturnDate();
 				// should we record who currently has the book?
 
-				cout << empQueue.top().getEmpname() << " got " << name << endl;
+				cout << empQueue.top().getName() << " got " << name << endl;
 				nextEmployee = empQueue.top();
 				empQueue.pop();
 			}
