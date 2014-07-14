@@ -50,46 +50,52 @@ public:
 
 	bool morePeopleInQueue(){ return !empQueue.empty(); }
 
-	Employee passToNextEmployee(Date currentDate){
+	void passToNextEmployee(Date currentDate){
 
-		stack<Employee> vacationingEmployees;
+		stack<Employee*> vacationingEmployees;
 
 		if (empQueue.empty()){
 			throw::exception("Employee queue is empty.");
 		}
 		else {
-			Employee topEmployee = empQueue.top();
-			if (topEmployee.isVacationing(currentDate)){
-				vacationingEmployees.push(topEmployee);
+			while (empQueue.top()->isVacationing(currentDate)){
+				vacationingEmployees.push(empQueue.top());
 				empQueue.pop();
 			}
+
+			if (empQueue.empty()){
+				throw::exception("All employees were on vacation");
+			}
 			else {
-				while (!vacationingEmployees.empty()){
-					empQueue.push(vacationingEmployees.top());
-					vacationingEmployees.pop();
-				}
+				empQueue.top()->addBookToList(barcode);
+				// how do we recor the date?
+				// should we record who currently has the book?
 				empQueue.pop();
-				return topEmployee;
+			}
+
+			while (!vacationingEmployees.empty()){
+				empQueue.push(vacationingEmployees.top());
+				vacationingEmployees.pop();
 			}
 		}
 	}
 
 
 	struct EmployeeComparer{ //Brenton
-		bool operator()(const Employee& emp1, const Employee& emp2){
+		bool operator()(const Employee* emp1, const Employee* emp2){
             //NB! higher reliability is actually a lower reliability. 0 is highest reliability
             //so we want the higher priority items to be placed in the rear of the line
             //because they are actually LESS reliable -Jordan, per Prof. Kuhail e-mail
-			int emp1priority = emp1.getReliability() - emp1.getWaitingTime();
-			int emp2priority = emp2.getReliability() - emp2.getWaitingTime();
+			int emp1priority = emp1->getReliability() - emp1->getWaitingTime();
+			int emp2priority = emp2->getReliability() - emp2->getWaitingTime();
 			return emp1priority > emp2priority;
 		}
 	};
 
-	void Periodical::generateEmpQueue(map<string, Employee>& empMap)
+	void Periodical::generateEmpQueue(vector<Employee>& employeeVector)
 	{
-		for (map<string, Employee>::iterator itr = empMap.begin(); itr != empMap.end(); itr++){
-			empQueue.push(itr->second);
+		for (vector<Employee>::iterator itr = employeeVector.begin(); itr != employeeVector.end(); itr++){
+			empQueue.push(&(*itr));
 		}
 	}
 
@@ -101,7 +107,7 @@ private:
 	Date checkOutDate;
 	Date returnDate;
 	int maxCheckoutDuration;
-	priority_queue<Employee, vector<Employee>, EmployeeComparer> empQueue;
+	priority_queue<Employee*, vector<Employee*>, EmployeeComparer> empQueue;
 };
 
 #endif

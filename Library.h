@@ -6,7 +6,6 @@ Library class header
 #define __LIBRARY_H__
 #include "Periodical.h"
 #include "Employee.h"
-#include <map>
 #include <vector>
 
 class Library { //implemented by Jordan
@@ -28,10 +27,9 @@ public:
 
 
 private:
-	map<int, Periodical> archivedPeriodicals;
-	map<int, Periodical> circulatingPeriodicals;
-	map<string, Employee> employees;
-
+	vector<Periodical> archivedPeriodicals;
+	vector<Periodical> circulatingPeriodicals;
+	vector<Employee> employees;
 
 };
 

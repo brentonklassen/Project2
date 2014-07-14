@@ -5,6 +5,7 @@
 #include "HelperFunctions.h"
 using namespace std;
 
+/*
 void Library::ReturnToLibrary(Periodical& p, Employee& e, Date currentDate)
 {//Jordan
 	p.setCheckedBool(false);
@@ -23,6 +24,7 @@ void Library::ReturnToLibrary(Periodical& p, Employee& e, Date currentDate)
 	e.setReliability(0); //fix later
 
 }
+*/
 
 void Library::UpdateEmployeeReliability(Employee& e, Periodical& p, Date& currentDate)
 {//Jordan
@@ -40,56 +42,6 @@ void Library::UpdateEmployeeReliability(Employee& e, Periodical& p, Date& curren
 	}
 }
 
-/*
-void Library::checkoutPeriodical(Periodical& p, Employee& e, Date currentDate) // Jordan
-{
-	if (p.getCheckOutStatus() == true)
-	{
-		p.empQueue.push(e);
-		return;
-	}
-	map<int,Employee> popMap = UpdateQueue(p, currentDate);
-    if (!popMap.empty())
-    {
-        p.empQueue.top().addBookToList(p.getBarcode());
-        int dayswaiting = currentDate - p.getReturnDate();
-        p.empQueue.top().setWaitingTime(p.empQueue.top().getWaitingTime() + dayswaiting);
-        p.empQueue.pop();
-        for (int i = 0; i < popMap.size(); i ++)
-        {
-            p.empQueue.push(popMap.begin()->second);
-            popMap.erase(popMap.begin());
-        }
-        return;
-    }
-	p.setCheckOutDate(currentDate);
-	p.setReturnDate();
-	p.setCheckedBool(true);
-	e.addBookToList(p.getBarcode());
-	removeArchivedPeriodical(p);
-	CirculatePeriodical(p);
-
-
-	if (p.getCheckOutStatus() == true)
-		throw::exception("the periodical you want is currently checked out");
-    if (p.empQueue.empty())
-    {
-		if (currentDate > e.getVacationEnd() || currentDate < e.getVacationStart())
-		{
-			p.setCheckOutDate(currentDate);
-			p.setReturnDate();
-			p.setCheckedBool(true);
-			e.addBookToList(p.getBarcode());
-			Periodical temp = Periodical(p);
-			removeArchivedPeriodical(p);
-		}
-		else
-		{
-			p.empQueue.push(e);
-		}
-    }
-}
-*/
 
 void Library::ReadPeriodicalsFromFile()
 {//Evan w/ Brenton debug
@@ -106,7 +58,7 @@ void Library::ReadPeriodicalsFromFile()
 			String_Tokenizer st(line, ",");
 			aName = trim(st.next_token());
 			aBarCode = stoi(trim(st.next_token()));
-            circulatingPeriodicals[aBarCode] = Periodical(aName, aBarCode);
+            circulatingPeriodicals.push_back(Periodical(aName, aBarCode));
 		}
 	}
 	fin.close();
@@ -128,7 +80,7 @@ void Library::ReadEmployeesFromFile()
 			theWaitingTime = stoi(trim(st.next_token()));
 			startVacation = trim(st.next_token());
 			endVacation = trim(st.next_token());
-			employees[empName] = Employee(theReliability, empName, Date(startVacation, DateFormat::US), Date(endVacation, DateFormat::US), theWaitingTime);
+			employees.push_back(Employee(theReliability, empName, Date(startVacation, DateFormat::US), Date(endVacation, DateFormat::US), theWaitingTime));
 		}
 	}
 	fin.close();
@@ -167,7 +119,7 @@ void Library::ReadActionsFromFile() // Evan
 			aBarcode = stoi(trim(st.next_token()));
 
 			if (action == "RETURN"){
-				ReturnToLibrary(circulatingPeriodicals[aBarcode], employees[name], currentDate);
+				//ReturnToLibrary(circulatingPeriodicals[aBarcode], employees[name], currentDate);
 			}
 			else {
 				throw::exception("Invalid action call from file");
@@ -178,15 +130,13 @@ void Library::ReadActionsFromFile() // Evan
 
 void Library::buildPriorityQueues(Date currentDate){
 	//Brenton
-	for (map<int, Periodical>::iterator itr = circulatingPeriodicals.begin(); itr != circulatingPeriodicals.end(); itr++){
-		itr->second.generateEmpQueue(employees);
-
-		Employee firstEmployee = itr->second.passToNextEmployee(currentDate);
-		firstEmployee.addBookToList(itr->first);
+	for (vector<Periodical>::iterator itr = circulatingPeriodicals.begin(); itr != circulatingPeriodicals.end(); itr++){
+		itr->generateEmpQueue(employees);
+		itr->passToNextEmployee(currentDate);
 	}
-   
 }
 
+/*
 void Library::ArchivePeriodical(Periodical& p) // Evan
 {
 	map<int, Periodical>::iterator iter = archivedPeriodicals.begin();
@@ -202,3 +152,4 @@ void Library::removeCirculatingPeriodical(Periodical& p) // Evan
 {
     circulatingPeriodicals.erase(p.getBarcode());
 }
+*/
