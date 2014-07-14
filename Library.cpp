@@ -10,7 +10,8 @@ void Library::ReturnToLibrary(Periodical& p, Employee& e, Date currentDate)
 {//Jordan
 	p.setCheckedOut(false);
 	e.removeBookFromList(p.getBarcode());
-	e.updateReliability(currentDate, p.getReturnDate());
+    p.setArchiveDate(currentDate);
+    e.updateReliability(currentDate, p.getCheckOutDate(), p.getMaxCheckoutDuration());
 
 	if (p.morePeopleInQueue())
 	{
@@ -112,6 +113,7 @@ void Library::buildPriorityQueues(Date currentDate){
 	//Brenton
 	for (map<string,Periodical>::iterator itr = circulatingPeriodicals.begin(); itr != circulatingPeriodicals.end(); itr++){
 		itr->second.generateEmpQueue(employees);
+        ArchivePeriodical(itr->second);
 		Employee firstEmployee = itr->second.passToNextEmployee(currentDate);
 		employees[firstEmployee.getName()] = firstEmployee;  // this updates the employee map with the new employee information
 	}

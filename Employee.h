@@ -55,8 +55,9 @@ public:
 		return currentDate > getVacationStart() && currentDate < getVacationEnd();
 	}
 
-	void updateReliability(Date currentDate, Date dueDate){
-		lateDays += dueDate - currentDate;
+	void updateReliability(Date currentDate, const Date& checkOutDate, const int maxCheckoutDur){
+        int daysCheckedOut = currentDate - checkOutDate;
+        lateDays += (daysCheckedOut - maxCheckoutDur);
 	}
 
 private:

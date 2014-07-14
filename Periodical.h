@@ -14,40 +14,36 @@ Periodical class header
 class Periodical { //implemented by Jordan
 public:
 	//default constructor
-	Periodical() : isCheckedOut(false), name(""), barcode(), checkOutDate(Date()), returnDate(Date()), maxCheckoutDuration(7) {}
+	Periodical() : isCheckedOut(false), name(""), barcode(), checkOutDate(Date()), archiveDate(Date()), maxCheckoutDuration(7) {}
 
 	//two-argument constructor
 	Periodical(string aName, string aBarCode)
-		: isCheckedOut(false), name(aName), barcode(aBarCode), checkOutDate(Date()), returnDate(Date()), maxCheckoutDuration(7) {}
+		: isCheckedOut(false), name(aName), barcode(aBarCode), checkOutDate(Date()), archiveDate(Date()), maxCheckoutDuration(7) {}
 
 	//full-argument constructor
-	Periodical(bool checkedOut, std::string aName, string aBarcode, Date theOutDate, Date theReturnDate, int theMaxDur)
+	Periodical(bool checkedOut, std::string aName, string aBarcode, Date theOutDate, Date theArchiveDate, int theMaxDur)
 		: isCheckedOut(checkedOut), name(aName), barcode(aBarcode), checkOutDate(theOutDate), maxCheckoutDuration(theMaxDur)
 	{
-		setReturnDate();
 	}
 
 	//copy constructor
 	Periodical(const Periodical& p) : isCheckedOut(p.isCheckedOut), name(p.name), barcode(p.barcode), checkOutDate(p.checkOutDate),
-		returnDate(p.returnDate), maxCheckoutDuration(p.maxCheckoutDuration) {}
+		archiveDate(p.archiveDate), maxCheckoutDuration(p.maxCheckoutDuration) {}
 
 	//setters
 	void setCheckedOut(bool isItChecked) { isCheckedOut = isItChecked; }
 	void setCheckOutDate(Date& aDate) { checkOutDate = aDate; }
-	void setReturnDate()
-	{
-		Date temp = checkOutDate;
-		temp.add_days(maxCheckoutDuration);
-		returnDate = temp;
-	}
+    void setArchiveDate(Date& aDate) { archiveDate = aDate; }
 	void setMaxCheckoutDur(int& dur) { maxCheckoutDuration = dur; }
 
 	//getters
 	Date getCheckOutDate() const { return checkOutDate; }
-	Date getReturnDate() const { return returnDate; }
+	Date getReturnDate() const { return archiveDate; }
 	string getName() const { return name; }
 	bool getCheckOutStatus() { return isCheckedOut; }
 	string getBarcode() const { return barcode; }
+    int getMaxCheckoutDuration() const { return maxCheckoutDuration; }
+
 
 	bool operator ==(const Periodical& other){
 		return barcode == other.barcode;
@@ -74,7 +70,6 @@ public:
 			}
 			else {
 				checkOutDate = currentDate;
-				setReturnDate();
 				// should we record who currently has the book?
 
 				cout << empQueue.top().getName() << " got " << name << endl;
@@ -113,7 +108,7 @@ private:
 	string barcode;
 	bool isCheckedOut;
 	Date checkOutDate;
-	Date returnDate;
+    Date archiveDate;
 	int maxCheckoutDuration;
 	priority_queue<Employee, vector<const Employee>, EmployeeComparer> empQueue;
 };
