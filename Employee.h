@@ -28,16 +28,16 @@ public:
 
 	//copy constructor
 	Employee(const Employee& e) : lateDays(e.lateDays), empname(e.empname),
-		vacationStart(e.vacationStart), vacationEnd(e.vacationEnd), waiting_time(e.waiting_time) {}
+		vacationStart(e.vacationStart), vacationEnd(e.vacationEnd), waiting_time(e.waiting_time), books(e.books) {}
 
 
 	void setVacationStart(const Date& d) { vacationStart = d; }
 	void setVacationEnd(const Date& d) { vacationEnd = d; }
 	void setWaitingTime(const int& t) { waiting_time = t; }
-	void addBookToList(const int& b) { books.push_back(b); }
-	void removeBookFromList(const int& b) {
+	void addBookToList(string& b) { books.push_back(b); }
+	void removeBookFromList(string& b) {
 		//Jordan
-		vector<int>::iterator iter;
+		vector<string>::iterator iter;
 		for (iter = books.begin(); iter != books.end(); iter++)
 		{
 			if (*iter == b)
@@ -57,7 +57,7 @@ public:
 	int getLateDays() const { return lateDays; }
 	int getNumberOfBooks() const { return books.size(); }
 
-	bool isVacationing(Date currentDate){
+	bool isVacationing(Date currentDate) const{
 		return currentDate > getVacationStart() && currentDate < getVacationEnd();
 	}
 
@@ -70,7 +70,7 @@ private:
 	int lateDays;
 	Date vacationStart;
 	Date vacationEnd;
-	vector<int> books;
+	vector<string> books;
 	int waiting_time; // # of days
 };
 

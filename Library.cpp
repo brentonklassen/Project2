@@ -29,16 +29,15 @@ void Library::ReadPeriodicalsFromFile()
 	ifstream fin("Periodicals.txt");
 	if (fin)
 	{
-		string line, aName;
-		int aBarCode;
+		string line, aName, barcode;
 
 
 		while (getline(fin, line))
 		{
 			String_Tokenizer st(line, ",");
 			aName = trim(st.next_token());
-			aBarCode = stoi(trim(st.next_token()));
-            circulatingPeriodicals.push_back(Periodical(aName, aBarCode));
+			barcode = trim(st.next_token());
+            circulatingPeriodicals[barcode] = Periodical(aName, barcode);
 		}
 	}
 	fin.close();
@@ -50,17 +49,17 @@ void Library::ReadEmployeesFromFile()
 	if (fin)
 	{
 		string line, empName, startVacation, endVacation;
-		int theReliability, theWaitingTime;
+		int lateDays, theWaitingTime;
 
 		while (getline(fin, line))
 		{
 			String_Tokenizer st(line, ",");
 			empName = trim(st.next_token());
-			theReliability = stoi(trim(st.next_token()));
+			lateDays = stoi(trim(st.next_token()));
 			theWaitingTime = stoi(trim(st.next_token()));
 			startVacation = trim(st.next_token());
 			endVacation = trim(st.next_token());
-			employees.push_back(Employee(theReliability, empName, Date(startVacation, DateFormat::US), Date(endVacation, DateFormat::US), theWaitingTime));
+			employees[empName] = Employee(lateDays, empName, Date(startVacation, DateFormat::US), Date(endVacation, DateFormat::US), theWaitingTime);
 		}
 	}
 	fin.close();
@@ -78,8 +77,7 @@ void Library::ReadActionsFromFile() // Evan
 
 	while (!actionsFile.eof())
 	{
-		string line, name, action;
-		int aBarcode;
+		string line, name, action, barcode;
 		Date currentDate;
 
 		getline(actionsFile, line);
@@ -96,23 +94,9 @@ void Library::ReadActionsFromFile() // Evan
 
 			name = trim(st.next_token());
 			action = trim(st.next_token());
-			aBarcode = stoi(trim(st.next_token()));
-			Periodical per;
-			Employee emp;
-
-			for (vector<Periodical>::iterator itr = circulatingPeriodicals.begin(); itr != circulatingPeriodicals.end(); itr++){
-				if (itr->getBarcode() == aBarcode){
-					per = *itr;
-					break;
-				}
-			}
-
-			for (vector<Employee>::iterator itr = employees.begin(); itr != employees.end(); itr++){
-				if (itr->getEmpname() == name){
-					emp = *itr;
-					break;
-				}
-			}
+			barcode = trim(st.next_token());
+			Periodical per = circulatingPeriodicals[barcode];
+			Employee emp = employees[name];
 
 			if (action == "RETURN"){
 				ReturnToLibrary(per, emp, currentDate);
@@ -126,25 +110,18 @@ void Library::ReadActionsFromFile() // Evan
 
 void Library::buildPriorityQueues(Date currentDate){
 	//Brenton
-	for (vector<Periodical>::iterator itr = circulatingPeriodicals.begin(); itr != circulatingPeriodicals.end(); itr++){
-		itr->generateEmpQueue(employees);
-		itr->passToNextEmployee(currentDate);
+	for (map<string,Periodical>::iterator itr = circulatingPeriodicals.begin(); itr != circulatingPeriodicals.end(); itr++){
+		itr->second.generateEmpQueue(employees);
+		Employee firstEmployee = itr->second.passToNextEmployee(currentDate);
+		employees[firstEmployee.getEmpname()] = firstEmployee;  // this updates the employee map with the new employee information
 	}
 }
 
 
 void Library::ArchivePeriodical(Periodical& p) // Evan
 {
-	for (vector<Periodical>::iterator itr = circulatingPeriodicals.begin(); itr != circulatingPeriodicals.end(); itr++){
-		if (*itr == p){
-			circulatingPeriodicals.erase(itr);
-		}
-		else {
-			throw::exception("The periodical was not circulating");
-		}
-	}
-
-	archivedPeriodicals.push_back(p);
+	circulatingPeriodicals.erase(p.getBarcode());
+	archivedPeriodicals[p.getBarcode()] = p;
 }
 
 /*

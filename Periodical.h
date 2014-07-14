@@ -17,11 +17,11 @@ public:
 	Periodical() : isCheckedOut(false), name(""), barcode(), checkOutDate(Date()), returnDate(Date()), maxCheckoutDuration(7) {}
 
 	//two-argument constructor
-	Periodical(string aName, int aBarCode)
+	Periodical(string aName, string aBarCode)
 		: isCheckedOut(false), name(aName), barcode(aBarCode), checkOutDate(Date()), returnDate(Date()), maxCheckoutDuration(7) {}
 
 	//full-argument constructor
-	Periodical(bool checkedOut, std::string aName, int aBarcode, Date theOutDate, Date theReturnDate, int theMaxDur)
+	Periodical(bool checkedOut, std::string aName, string aBarcode, Date theOutDate, Date theReturnDate, int theMaxDur)
 		: isCheckedOut(checkedOut), name(aName), barcode(aBarcode), checkOutDate(theOutDate), maxCheckoutDuration(theMaxDur)
 	{
 		setReturnDate();
@@ -47,23 +47,24 @@ public:
 	Date getReturnDate() const { return returnDate; }
 	string getName() const { return name; }
 	bool getCheckOutStatus() { return isCheckedOut; }
-	int getBarcode() const { return barcode; }
+	string getBarcode() const { return barcode; }
 
 	bool operator ==(const Periodical& other){
-		return barcode = other.barcode;
+		return barcode == other.barcode;
 	}
 
 	bool morePeopleInQueue(){ return !empQueue.empty(); }
 
-	void passToNextEmployee(Date currentDate){
+	Employee passToNextEmployee(Date currentDate){
 
-		stack<Employee*> vacationingEmployees;
+		stack<Employee> vacationingEmployees;
+		Employee nextEmployee;
 
 		if (empQueue.empty()){
 			throw::exception("Employee queue is empty.");
 		}
 		else {
-			while (empQueue.top()->isVacationing(currentDate)){
+			while (empQueue.top().isVacationing(currentDate)){
 				vacationingEmployees.push(empQueue.top());
 				empQueue.pop();
 			}
@@ -76,9 +77,8 @@ public:
 				setReturnDate();
 				// should we record who currently has the book?
 
-				cout << empQueue.top()->getEmpname() << " got " << name << endl;
-
-				empQueue.top()->addBookToList(barcode);
+				cout << empQueue.top().getEmpname() << " got " << name << endl;
+				nextEmployee = empQueue.top();
 				empQueue.pop();
 			}
 
@@ -86,34 +86,36 @@ public:
 				empQueue.push(vacationingEmployees.top());
 				vacationingEmployees.pop();
 			}
+			nextEmployee.addBookToList(barcode);
+			return nextEmployee;
 		}
 	}
 
 
 	struct EmployeeComparer{ //Brenton
-		bool operator()(const Employee* emp1, const Employee* emp2){
-			int emp1priority = emp1->getWaitingTime() - emp1->getLateDays() - emp1->getNumberOfBooks();
-			int emp2priority = emp2->getWaitingTime() - emp2->getLateDays() - emp2->getNumberOfBooks();
+		bool operator()(const Employee emp1, const Employee emp2){
+			int emp1priority = emp1.getWaitingTime() - emp1.getLateDays() - emp1.getNumberOfBooks();
+			int emp2priority = emp2.getWaitingTime() - emp2.getLateDays() - emp2.getNumberOfBooks();
 			return emp1priority < emp2priority;
 		}
 	};
 
-	void Periodical::generateEmpQueue(vector<Employee>& employeeVector)
+	void Periodical::generateEmpQueue(map<string,Employee>& employeeMap)
 	{
-		for (vector<Employee>::iterator itr = employeeVector.begin(); itr != employeeVector.end(); itr++){
-			empQueue.push(&(*itr));
+		for (map<string, Employee>::iterator itr = employeeMap.begin(); itr != employeeMap.end(); itr++){
+			empQueue.push(itr->second);
 		}
 	}
 
 
 private:
 	string name;
-	int barcode;
+	string barcode;
 	bool isCheckedOut;
 	Date checkOutDate;
 	Date returnDate;
 	int maxCheckoutDuration;
-	priority_queue<Employee*, vector<Employee*>, EmployeeComparer> empQueue;
+	priority_queue<Employee, vector<const Employee>, EmployeeComparer> empQueue;
 };
 
 #endif
