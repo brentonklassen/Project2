@@ -29,9 +29,18 @@ public:
 	void setVacationEnd(const Date& d) { vacationEnd = d; }
 	void setWaitingTime(const int& t) { waiting_time = t; }
 	void addBookToList(string& b) { books.push_back(b); }
+    string getTopBookFromList() {
+        if (!books.empty())
+        {
+            return books[books.size()-1];
+        }
+        throw::exception ("Periodical list is empty!");
+        
+    }
 	void removeBookFromList(string& b) {
 		//Jordan
 		vector<string>::iterator iter;
+        if (books.empty()) {throw::exception ("Periodical list is empty!");}
 		for (iter = books.begin(); iter != books.end(); iter++)
 		{
 			if (*iter == b)
@@ -50,10 +59,14 @@ public:
 	int getWaitingTime() const { return waiting_time; }
 	int getLateDays() const { return lateDays; }
 	int getNumberOfBooks() const { return books.size(); }
+    bool isLazy() const { return isALazyGuyorGal; }
+    bool hasNoBooks() const { return books.empty(); }
 
 	bool isVacationing(Date currentDate) const{
 		return currentDate > getVacationStart() && currentDate < getVacationEnd();
 	}
+
+    
 
 	void updateReliability(Date currentDate, const Date& checkOutDate, const int maxCheckoutDur){
         int daysCheckedOut = currentDate - checkOutDate;
@@ -63,6 +76,7 @@ public:
 private:
 	string empname;
 	int lateDays;
+    bool isALazyGuyorGal;
 	Date vacationStart;
 	Date vacationEnd;
 	vector<string> books;

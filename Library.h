@@ -13,6 +13,9 @@ public:
 	void ReturnToLibrary(Periodical&, Employee&, Date);
 	void ReadPeriodicalsFromFile();
 	void ReadEmployeesFromFile();
+    void SimulateEmployeeAction(ofstream&);
+    void SaveSimulatorData(ofstream&);
+    void ExecuteSimulator();
 	void ReadActionsFromFile();
 	void buildPriorityQueues(Date);
 	void ArchivePeriodical(Periodical& p);

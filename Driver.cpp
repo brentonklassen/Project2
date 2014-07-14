@@ -15,6 +15,8 @@ int main()
 	myLib.ReadPeriodicalsFromFile();
 	myLib.ReadEmployeesFromFile();
 	myLib.buildPriorityQueues(Date("7/13/2014"));
+    
+    myLib.ExecuteSimulator();
 	//myLib.ReadActionsFromFile(); TODO:cycle through to find who should get a next periodical
 
 	system("pause");

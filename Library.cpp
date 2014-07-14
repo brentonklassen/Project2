@@ -1,8 +1,10 @@
 #include <fstream>
 #include <string>
+#include <cstdlib>
 #include "Library.h"
 #include "StringTokenizer.h"
 #include "HelperFunctions.h"
+#include <ctime>
 using namespace std;
 
 
@@ -10,17 +12,65 @@ void Library::ReturnToLibrary(Periodical& p, Employee& e, Date currentDate)
 {//Jordan
 	p.setCheckedOut(false);
 	e.removeBookFromList(p.getBarcode());
-    p.setArchiveDate(currentDate);
     e.updateReliability(currentDate, p.getCheckOutDate(), p.getMaxCheckoutDuration());
-
 	if (p.morePeopleInQueue())
 	{
 		p.passToNextEmployee(currentDate);
 	}
     else
     {
+        p.setArchiveDate(currentDate);
         ArchivePeriodical(p);
     }
+}
+
+void Library::SimulateEmployeeAction(ofstream& fout)
+{
+    map<string,Employee>::iterator iter;
+    int randDaysToAdd = 0;
+    for (iter = employees.begin(); iter != employees.end(); iter++)
+    {
+        //let's find the employees random laziness-modified return date
+        if (iter->second.isLazy())
+        {
+            randDaysToAdd = rand() % 30 + 3;
+        }
+        else
+        {
+            randDaysToAdd = rand() % 10 + 1;
+        }
+        if (iter->second.hasNoBooks())
+        {
+            return;
+        }
+        string tempBarcode = iter->second.getTopBookFromList();
+        Date temp_date = circulatingPeriodicals[tempBarcode].getCheckOutDate();
+        temp_date.add_days(randDaysToAdd);
+        fout << iter->second.getName() << setw(10) << " returned\t" << 
+            circulatingPeriodicals[tempBarcode].getName() << setw(10) << randDaysToAdd << " days late. " << endl;
+        ReturnToLibrary(circulatingPeriodicals[tempBarcode], iter->second, temp_date);
+    }
+}
+
+void Library::ExecuteSimulator()
+{
+    int counter = 0;
+    ofstream fout("SimulatorData.txt");
+    while (!circulatingPeriodicals.empty())
+    {
+        SimulateEmployeeAction(fout);
+        counter ++;
+        if (counter > 200)
+        {
+            return;
+        }
+    }
+    fout.close();
+}
+
+void Library::SaveSimulatorData(ofstream& fout)
+{
+    
 }
 
 
@@ -113,7 +163,6 @@ void Library::buildPriorityQueues(Date currentDate){
 	//Brenton
 	for (map<string,Periodical>::iterator itr = circulatingPeriodicals.begin(); itr != circulatingPeriodicals.end(); itr++){
 		itr->second.generateEmpQueue(employees);
-        ArchivePeriodical(itr->second);
 		Employee firstEmployee = itr->second.passToNextEmployee(currentDate);
 		employees[firstEmployee.getName()] = firstEmployee;  // this updates the employee map with the new employee information
 	}
