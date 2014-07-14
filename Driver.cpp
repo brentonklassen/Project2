@@ -8,7 +8,9 @@ int main()
 	myLib.ReadPeriodicalsFromFile();
 	myLib.ReadEmployeesFromFile();
 	myLib.buildPriorityQueues(Date("7/13/2014"));
-	myLib.ReadActionsFromFile();
+	//myLib.ReadActionsFromFile();
+
+	system("pause");
 
     return 0;
 }
