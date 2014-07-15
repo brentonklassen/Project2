@@ -51,7 +51,7 @@ public:
 
 	bool morePeopleInQueue(){ return !empQueue.empty(); }
 
-	Employee passToNextEmployee(Date currentDate){
+	Employee passToNextEmployee(Date currentDate, map<string,Employee>& empMap){
 
 		stack<Employee> vacationingEmployees;
 		Employee nextEmployee;
@@ -73,7 +73,7 @@ public:
 				// should we record who currently has the book?
 
 				cout << empQueue.top().getName() << " got " << name << endl;
-				nextEmployee = empQueue.top();
+				nextEmployee = empQueue.top(); // this employee has an incorrect book queue -- how do we know what books she has read?
 				empQueue.pop();
 			}
 
@@ -81,7 +81,7 @@ public:
 				empQueue.push(vacationingEmployees.top());
 				vacationingEmployees.pop();
 			}
-
+			empMap[nextEmployee.getName()].addBookToList(barcode);
 			nextEmployee.addBookToList(barcode);
 			CheckedOut = true;
 			return nextEmployee;

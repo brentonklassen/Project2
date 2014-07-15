@@ -7,6 +7,7 @@ Employee class header
 #include <string>
 #include <iostream>
 #include <queue>
+#include <set>
 #include "Periodical.h"
 #include "Date.h"
 using namespace std;
@@ -20,6 +21,10 @@ public:
 	Employee(int lateDays, string aName, Date aVacStart, Date aVacEnd, int aWaitTime)
 		: lateDays(lateDays), empname(aName), vacationStart(aVacStart), vacationEnd(aVacEnd), waiting_time(aWaitTime){}
 
+	//argument constructor
+	Employee(int lateDays, string aName, Date aVacStart, Date aVacEnd, int aWaitTime, set<string> bookSet)
+		: lateDays(lateDays), empname(aName), vacationStart(aVacStart), vacationEnd(aVacEnd), waiting_time(aWaitTime), books(bookSet){}
+
 	//copy constructor
 	Employee(const Employee& e) : lateDays(e.lateDays), empname(e.empname),
 		vacationStart(e.vacationStart), vacationEnd(e.vacationEnd), waiting_time(e.waiting_time), books(e.books) {}
@@ -28,9 +33,12 @@ public:
 	void setVacationStart(const Date& d) { vacationStart = d; }
 	void setVacationEnd(const Date& d) { vacationEnd = d; }
 	void setWaitingTime(const int& t) { waiting_time = t; }
-	void addBookToList(string& b) { books.push(b); }
-	string getTopBookFromList() { return books.front(); }
-	void removeBookFromList(string& b) { books.pop(); }
+	void addBookToList(string& b) { books.insert(b); }
+	string getTopBookFromList() { return *books.begin(); }
+	void removeBookFromList(string& b) {
+		books.erase(b);
+		returnedBooks.insert(b);
+	}
 
 	//getters
 	Date getVacationStart() const { return vacationStart; }
@@ -41,6 +49,9 @@ public:
 	int getNumberOfBooks() const { return books.size(); }
     bool isLazy() const { return isALazyGuyorGal; }
     bool hasNoBooks() const { return books.empty(); }
+
+	set<string> getReturnedBooks(){ return returnedBooks; }
+	set<string> getBooks(){ return books; }
 
 	bool isVacationing(Date currentDate) const{
 		return currentDate > getVacationStart() && currentDate < getVacationEnd();
@@ -61,7 +72,8 @@ private:
     bool isALazyGuyorGal;
 	Date vacationStart;
 	Date vacationEnd;
-	queue<string> books;
+	set<string> books;
+	set<string> returnedBooks;
 	int waiting_time; // # of days
 };
 

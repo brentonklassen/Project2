@@ -15,7 +15,7 @@ Employee Library::ReturnToLibraryandPassOn(Periodical& p, Employee& e, Date curr
     e.updateReliability(currentDate, p.getCheckOutDate(), p.getMaxCheckoutDuration());
 	if (p.morePeopleInQueue() && !p.isCheckedOut())
 	{
-		return p.passToNextEmployee(currentDate);
+		return p.passToNextEmployee(currentDate, employees);
 	}
     else
     {
@@ -30,6 +30,8 @@ void Library::SimulateEmployeeAction(ostream& outputStream)
 	int randDaysToAdd;
 	for (map<string, Employee>::iterator iter = employees.begin(); iter != employees.end(); iter++)
     {
+		bool test = (iter->second.getName() == "Ashley Robinson");
+
 		if (iter->second.hasNoBooks()) continue;
 		if (iter->second.isLazy()) randDaysToAdd = rand() % 30 + 3;
         else randDaysToAdd = rand() % 10 + 1;
@@ -41,9 +43,6 @@ void Library::SimulateEmployeeAction(ostream& outputStream)
 		outputStream << iter->second.getName() << setw(10) << " returned " << circulatingPeriodicals[barcode].getName() << " after " << randDaysToAdd << " days." << endl;
 
 		Employee nextEmployee = ReturnToLibraryandPassOn(circulatingPeriodicals[barcode], iter->second, returnDate);
-		if (!(nextEmployee == Employee())){   // ReturnToLibraryandPassOn returns an empty employee if the periodical was archived
-			employees[nextEmployee.getName()] = nextEmployee;  // this updates the employee map with the new employee information
-		}
     }
 }
 
@@ -112,8 +111,7 @@ void Library::buildPriorityQueues(Date currentDate){
 	//Brenton
 	for (map<string,Periodical>::iterator itr = circulatingPeriodicals.begin(); itr != circulatingPeriodicals.end(); itr++){
 		itr->second.generateEmpQueue(employees);
-		Employee firstEmployee = itr->second.passToNextEmployee(currentDate);
-		employees[firstEmployee.getName()] = firstEmployee;  // this updates the employee map with the new employee information
+		Employee firstEmployee = itr->second.passToNextEmployee(currentDate, employees);
 	}
 }
 
