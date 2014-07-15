@@ -37,7 +37,6 @@ public:
 	string getTopBookFromList() { return *books.begin(); }
 	void removeBookFromList(string& b) {
 		books.erase(b);
-		returnedBooks.insert(b);
 	}
 
 	//getters
@@ -50,7 +49,6 @@ public:
     bool isLazy() const { return isALazyGuyorGal; }
     bool hasNoBooks() const { return books.empty(); }
 
-	set<string> getReturnedBooks(){ return returnedBooks; }
 	set<string> getBooks(){ return books; }
 
 	bool isVacationing(Date currentDate) const{
@@ -73,7 +71,6 @@ private:
 	Date vacationStart;
 	Date vacationEnd;
 	set<string> books;
-	set<string> returnedBooks;
 	int waiting_time; // # of days
 };
 

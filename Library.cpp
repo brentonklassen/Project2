@@ -40,7 +40,7 @@ void Library::SimulateEmployeeAction(ostream& outputStream)
 		Date returnDate = circulatingPeriodicals[barcode].getCheckOutDate();
 		returnDate.add_days(randDaysToAdd);
 
-		outputStream << iter->second.getName() << setw(10) << " returned " << circulatingPeriodicals[barcode].getName() << " after " << randDaysToAdd << " days." << endl;
+		outputStream << iter->second.getName() << " returned " << circulatingPeriodicals[barcode].getName() << " after " << randDaysToAdd << " days." << endl;
 
 		Employee nextEmployee = ReturnToLibraryandPassOn(circulatingPeriodicals[barcode], iter->second, returnDate);
     }
@@ -49,10 +49,8 @@ void Library::SimulateEmployeeAction(ostream& outputStream)
 void Library::ExecuteSimulator()
 {
     ofstream simulatorFile("SimulatorData.txt");
-	int counter = 0;
     while (!circulatingPeriodicals.empty())
     {
-		counter++;
         SimulateEmployeeAction(cout);
     }
 	simulatorFile.close();

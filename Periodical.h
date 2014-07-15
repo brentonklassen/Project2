@@ -70,10 +70,8 @@ public:
 			}
 			else {
 				checkOutDate = currentDate;
-				// should we record who currently has the book?
-
 				cout << empQueue.top().getName() << " got " << name << endl;
-				nextEmployee = empQueue.top(); // this employee has an incorrect book queue -- how do we know what books she has read?
+				nextEmployee = empQueue.top();
 				empQueue.pop();
 			}
 
