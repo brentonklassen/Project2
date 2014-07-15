@@ -10,15 +10,14 @@ Library class header
 
 class Library { //implemented by Jordan
 public:
-	void ReturnToLibrary(Periodical&, Employee&, Date);
+	Employee ReturnToLibraryandPassOn(Periodical&, Employee&, Date);
 	void ReadPeriodicalsFromFile();
 	void ReadEmployeesFromFile();
-    void SimulateEmployeeAction(ofstream&);
-    void SaveSimulatorData(ofstream&);
+    void SimulateEmployeeAction(ostream&);
+    void SaveSimulatorData(ostream&);
     void ExecuteSimulator();
-	void ReadActionsFromFile();
 	void buildPriorityQueues(Date);
-	void ArchivePeriodical(Periodical& p);
+	void ArchivePeriodical(Periodical p);
 
 private:
 	map<string,Periodical> archivedPeriodicals;

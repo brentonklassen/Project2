@@ -7,24 +7,25 @@
 #include <ctime>
 using namespace std;
 
-
-void Library::ReturnToLibrary(Periodical& p, Employee& e, Date currentDate)
+// if the periodical was passed to another employee, that employee is returned
+Employee Library::ReturnToLibraryandPassOn(Periodical& p, Employee& e, Date currentDate)
 {//Jordan
 	p.setCheckedOut(false);
 	e.removeBookFromList(p.getBarcode());
     e.updateReliability(currentDate, p.getCheckOutDate(), p.getMaxCheckoutDuration());
-	if (p.morePeopleInQueue())
+	if (p.morePeopleInQueue() && !p.isCheckedOut())
 	{
-		p.passToNextEmployee(currentDate);
+		return p.passToNextEmployee(currentDate);
 	}
     else
     {
         p.setArchiveDate(currentDate);
         ArchivePeriodical(p);
+		return Employee();
     }
 }
 
-void Library::SimulateEmployeeAction(ofstream& fout)
+void Library::SimulateEmployeeAction(ostream& outputStream)
 {
 	int randDaysToAdd;
 	for (map<string, Employee>::iterator iter = employees.begin(); iter != employees.end(); iter++)
@@ -36,23 +37,29 @@ void Library::SimulateEmployeeAction(ofstream& fout)
         string barcode = iter->second.getTopBookFromList();
 		Date returnDate = circulatingPeriodicals[barcode].getCheckOutDate();
 		returnDate.add_days(randDaysToAdd);
-		ReturnToLibrary(circulatingPeriodicals[barcode], iter->second, returnDate);
 
-		cout << iter->second.getName() << setw(10) << " returned " << circulatingPeriodicals[barcode].getName() << " after " << randDaysToAdd << " days." << endl;
+		outputStream << iter->second.getName() << setw(10) << " returned " << circulatingPeriodicals[barcode].getName() << " after " << randDaysToAdd << " days." << endl;
+
+		Employee nextEmployee = ReturnToLibraryandPassOn(circulatingPeriodicals[barcode], iter->second, returnDate);
+		if (!(nextEmployee == Employee())){   // ReturnToLibraryandPassOn returns an empty employee if the periodical was archived
+			employees[nextEmployee.getName()] = nextEmployee;  // this updates the employee map with the new employee information
+		}
     }
 }
 
 void Library::ExecuteSimulator()
 {
-    ofstream fout("SimulatorData.txt");
+    ofstream simulatorFile("SimulatorData.txt");
+	int counter = 0;
     while (!circulatingPeriodicals.empty())
     {
-        SimulateEmployeeAction(fout);
+		counter++;
+        SimulateEmployeeAction(cout);
     }
-    fout.close();
+	simulatorFile.close();
 }
 
-void Library::SaveSimulatorData(ofstream& fout)
+void Library::SaveSimulatorData(ostream& outputStream)
 {
     
 }
@@ -100,48 +107,6 @@ void Library::ReadEmployeesFromFile()
 	fin.close();
 }
 
-// if end of file has been reached return empty Date
-void Library::ReadActionsFromFile() // Evan
-{
-	ifstream actionsFile("Actions.txt");
-	if (actionsFile.fail()){
-		cout << "Couldn't open actions.txt\n";
-		system("pause");
-		exit(1);
-	}
-
-	while (!actionsFile.eof())
-	{
-		string line, name, action, barcode;
-		Date currentDate;
-
-		getline(actionsFile, line);
-
-		if (line == ""){
-			continue;
-		}
-		else if (isDate(line))
-		{
-			currentDate = Date(line);
-		}
-		else {
-			String_Tokenizer st(line, ",");
-
-			name = trim(st.next_token());
-			action = trim(st.next_token());
-			barcode = trim(st.next_token());
-			Periodical per = circulatingPeriodicals[barcode];
-			Employee emp = employees[name];
-
-			if (action == "RETURN"){
-				ReturnToLibrary(per, emp, currentDate);
-			}
-			else {
-				throw::exception("Invalid action call from file");
-			}
-		}
-    }
-}
 
 void Library::buildPriorityQueues(Date currentDate){
 	//Brenton
@@ -153,7 +118,7 @@ void Library::buildPriorityQueues(Date currentDate){
 }
 
 
-void Library::ArchivePeriodical(Periodical& p) // Evan
+void Library::ArchivePeriodical(Periodical p) // Evan
 {
 	circulatingPeriodicals.erase(p.getBarcode());
 	archivedPeriodicals[p.getBarcode()] = p;

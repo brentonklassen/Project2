@@ -14,24 +14,24 @@ Periodical class header
 class Periodical { //implemented by Jordan
 public:
 	//default constructor
-	Periodical() : isCheckedOut(false), name(""), barcode(), checkOutDate(Date()), archiveDate(Date()), maxCheckoutDuration(7) {}
+	Periodical() : CheckedOut(false), name(""), barcode(), checkOutDate(Date()), archiveDate(Date()), maxCheckoutDuration(7) {}
 
 	//two-argument constructor
 	Periodical(string aName, string aBarCode)
-		: isCheckedOut(false), name(aName), barcode(aBarCode), checkOutDate(Date()), archiveDate(Date()), maxCheckoutDuration(7) {}
+		: CheckedOut(false), name(aName), barcode(aBarCode), checkOutDate(Date()), archiveDate(Date()), maxCheckoutDuration(7) {}
 
 	//full-argument constructor
 	Periodical(bool checkedOut, std::string aName, string aBarcode, Date theOutDate, Date theArchiveDate, int theMaxDur)
-		: isCheckedOut(checkedOut), name(aName), barcode(aBarcode), checkOutDate(theOutDate), maxCheckoutDuration(theMaxDur)
+		: CheckedOut(checkedOut), name(aName), barcode(aBarcode), checkOutDate(theOutDate), maxCheckoutDuration(theMaxDur)
 	{
 	}
 
 	//copy constructor
-	Periodical(const Periodical& p) : isCheckedOut(p.isCheckedOut), name(p.name), barcode(p.barcode), checkOutDate(p.checkOutDate),
+	Periodical(const Periodical& p) : CheckedOut(p.CheckedOut), name(p.name), barcode(p.barcode), checkOutDate(p.checkOutDate),
 		archiveDate(p.archiveDate), maxCheckoutDuration(p.maxCheckoutDuration) {}
 
 	//setters
-	void setCheckedOut(bool isItChecked) { isCheckedOut = isItChecked; }
+	void setCheckedOut(bool isItChecked) { CheckedOut = isItChecked; }
 	void setCheckOutDate(Date& aDate) { checkOutDate = aDate; }
     void setArchiveDate(Date& aDate) { archiveDate = aDate; }
 	void setMaxCheckoutDur(int& dur) { maxCheckoutDuration = dur; }
@@ -40,7 +40,7 @@ public:
 	Date getCheckOutDate() const { return checkOutDate; }
 	Date getReturnDate() const { return archiveDate; }
 	string getName() const { return name; }
-	bool getCheckOutStatus() { return isCheckedOut; }
+	bool isCheckedOut() { return CheckedOut; }
 	string getBarcode() const { return barcode; }
     int getMaxCheckoutDuration() const { return maxCheckoutDuration; }
 
@@ -81,7 +81,9 @@ public:
 				empQueue.push(vacationingEmployees.top());
 				vacationingEmployees.pop();
 			}
+
 			nextEmployee.addBookToList(barcode);
+			CheckedOut = true;
 			return nextEmployee;
 		}
 	}
@@ -106,7 +108,7 @@ public:
 private:
 	string name;
 	string barcode;
-	bool isCheckedOut;
+	bool CheckedOut;
 	Date checkOutDate;
     Date archiveDate;
 	int maxCheckoutDuration;

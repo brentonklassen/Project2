@@ -6,7 +6,7 @@ Employee class header
 #define __EMPLOYEE_H__
 #include <string>
 #include <iostream>
-#include <vector>
+#include <queue>
 #include "Periodical.h"
 #include "Date.h"
 using namespace std;
@@ -28,29 +28,9 @@ public:
 	void setVacationStart(const Date& d) { vacationStart = d; }
 	void setVacationEnd(const Date& d) { vacationEnd = d; }
 	void setWaitingTime(const int& t) { waiting_time = t; }
-	void addBookToList(string& b) { books.push_back(b); }
-    string getTopBookFromList() {
-        if (!books.empty())
-        {
-            return books[books.size()-1];
-        }
-        throw::exception ("Periodical list is empty!");
-        
-    }
-	void removeBookFromList(string& b) {
-		//Jordan
-		vector<string>::iterator iter;
-        if (books.empty()) {throw::exception ("Periodical list is empty!");}
-		for (iter = books.begin(); iter != books.end(); iter++)
-		{
-			if (*iter == b)
-			{
-				books.erase(iter);
-				return;
-			}
-		}
-		throw::exception("The periodical is not in this employees periodical list.\n");
-	}
+	void addBookToList(string& b) { books.push(b); }
+	string getTopBookFromList() { return books.front(); }
+	void removeBookFromList(string& b) { books.pop(); }
 
 	//getters
 	Date getVacationStart() const { return vacationStart; }
@@ -66,11 +46,13 @@ public:
 		return currentDate > getVacationStart() && currentDate < getVacationEnd();
 	}
 
-    
-
 	void updateReliability(Date currentDate, const Date& checkOutDate, const int maxCheckoutDur){
         int daysCheckedOut = currentDate - checkOutDate;
         lateDays += (daysCheckedOut - maxCheckoutDur);
+	}
+
+	bool operator ==(const Employee& other){
+		return empname == other.empname;
 	}
 
 private:
@@ -79,7 +61,7 @@ private:
     bool isALazyGuyorGal;
 	Date vacationStart;
 	Date vacationEnd;
-	vector<string> books;
+	queue<string> books;
 	int waiting_time; // # of days
 };
 
