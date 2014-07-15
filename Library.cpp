@@ -1,10 +1,11 @@
 #include <fstream>
 #include <string>
 #include <cstdlib>
+#include <algorithm>
+#include <ctime>
 #include "Library.h"
 #include "StringTokenizer.h"
 #include "HelperFunctions.h"
-#include <ctime>
 using namespace std;
 
 // if the periodical was passed to another employee, that employee is returned
@@ -51,7 +52,7 @@ void Library::ExecuteSimulator()
     ofstream simulatorFile("SimulatorData.txt");
     while (!circulatingPeriodicals.empty())
     {
-        SimulateEmployeeAction(cout);
+        SimulateEmployeeAction(simulatorFile);
     }
 	simulatorFile.close();
 }
@@ -87,8 +88,9 @@ void Library::ReadEmployeesFromFile()
 	ifstream fin("Employees.txt");
 	if (fin)
 	{
-		string line, empName, startVacation, endVacation;
+		string line, empName, startVacation, endVacation, lazyString;
 		int lateDays, theWaitingTime;
+		bool lazyBool;
 
 		while (getline(fin, line))
 		{
@@ -98,7 +100,15 @@ void Library::ReadEmployeesFromFile()
 			theWaitingTime = stoi(trim(st.next_token()));
 			startVacation = trim(st.next_token());
 			endVacation = trim(st.next_token());
-			employees[empName] = Employee(lateDays, empName, Date(startVacation, DateFormat::US), Date(endVacation, DateFormat::US), theWaitingTime);
+			lazyString = trim(st.next_token());
+			transform(lazyString.begin(), lazyString.end(), lazyString.begin(), ::toupper); // convert to all uppercase
+				if (lazyString == "LAZY")
+					lazyBool = true;
+				else if (lazyString == "NOT LAZY")
+					lazyBool = false;
+				else
+					throw::exception("Invalid lazy input from employees.txt file");
+			employees[empName] = Employee(lateDays, empName, Date(startVacation, DateFormat::US), Date(endVacation, DateFormat::US), theWaitingTime, lazyBool);
 		}
 	}
 	fin.close();
@@ -116,6 +126,8 @@ void Library::buildPriorityQueues(Date currentDate){
 
 void Library::ArchivePeriodical(Periodical p) // Evan
 {
+	if (circulatingPeriodicals.empty())
+		throw::exception("All periodicals have been archived");
 	circulatingPeriodicals.erase(p.getBarcode());
 	archivedPeriodicals[p.getBarcode()] = p;
 }

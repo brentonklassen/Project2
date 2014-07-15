@@ -15,19 +15,22 @@ using namespace std;
 class Employee { //implemented by Jordan
 public:
 	//default constructor
-	Employee() : lateDays(), empname(), vacationStart(Date()), vacationEnd(Date()), waiting_time() {}
+	Employee(): lateDays(0), empname(""), vacationStart(Date()), vacationEnd(Date()), waiting_time(0), books(), lazy(false) {}
 
 	//argument constructor
-	Employee(int lateDays, string aName, Date aVacStart, Date aVacEnd, int aWaitTime)
-		: lateDays(lateDays), empname(aName), vacationStart(aVacStart), vacationEnd(aVacEnd), waiting_time(aWaitTime){}
+	Employee(int lateDays, string aName, Date aVacStart, Date aVacEnd, int aWaitTime, bool isLazy)
+		: lateDays(lateDays), empname(aName), vacationStart(aVacStart), vacationEnd(aVacEnd),
+		waiting_time(aWaitTime), lazy(isLazy) {}
 
 	//argument constructor
-	Employee(int lateDays, string aName, Date aVacStart, Date aVacEnd, int aWaitTime, set<string> bookSet)
-		: lateDays(lateDays), empname(aName), vacationStart(aVacStart), vacationEnd(aVacEnd), waiting_time(aWaitTime), books(bookSet){}
+	Employee(int lateDays, string aName, Date aVacStart, Date aVacEnd, int aWaitTime, set<string> bookSet, bool lazyBool)
+		: lateDays(lateDays), empname(aName), vacationStart(aVacStart), vacationEnd(aVacEnd),
+		waiting_time(aWaitTime), books(bookSet), lazy(lazyBool) {}
 
 	//copy constructor
-	Employee(const Employee& e) : lateDays(e.lateDays), empname(e.empname),
-		vacationStart(e.vacationStart), vacationEnd(e.vacationEnd), waiting_time(e.waiting_time), books(e.books) {}
+	Employee(const Employee& e) 
+		: lateDays(e.lateDays), empname(e.empname), vacationStart(e.vacationStart), vacationEnd(e.vacationEnd),
+		waiting_time(e.waiting_time), books(e.books), lazy(e.lazy) {}
 
 
 	void setVacationStart(const Date& d) { vacationStart = d; }
@@ -46,13 +49,13 @@ public:
 	int getWaitingTime() const { return waiting_time; }
 	int getLateDays() const { return lateDays; }
 	int getNumberOfBooks() const { return books.size(); }
-    bool isLazy() const { return isALazyGuyorGal; }
+    bool isLazy() const { return lazy; }
     bool hasNoBooks() const { return books.empty(); }
 
 	set<string> getBooks(){ return books; }
 
 	bool isVacationing(Date currentDate) const{
-		return currentDate > getVacationStart() && currentDate < getVacationEnd();
+		return currentDate >= getVacationStart() && currentDate <= getVacationEnd();
 	}
 
 	void updateReliability(Date currentDate, const Date& checkOutDate, const int maxCheckoutDur){
@@ -67,7 +70,7 @@ public:
 private:
 	string empname;
 	int lateDays;
-    bool isALazyGuyorGal;
+    bool lazy;
 	Date vacationStart;
 	Date vacationEnd;
 	set<string> books;

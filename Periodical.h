@@ -65,7 +65,7 @@ public:
 				empQueue.pop();
 			}
 
-			if (empQueue.empty()){
+			if (empQueue.empty()){ 
 				throw::exception("All employees were on vacation");
 			}
 			else {
