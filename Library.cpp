@@ -26,44 +26,28 @@ void Library::ReturnToLibrary(Periodical& p, Employee& e, Date currentDate)
 
 void Library::SimulateEmployeeAction(ofstream& fout)
 {
-    map<string,Employee>::iterator iter;
-    int randDaysToAdd = 0;
-    for (iter = employees.begin(); iter != employees.end(); iter++)
+	int randDaysToAdd;
+	for (map<string, Employee>::iterator iter = employees.begin(); iter != employees.end(); iter++)
     {
-        //let's find the employees random laziness-modified return date
-        if (iter->second.isLazy())
-        {
-            randDaysToAdd = rand() % 30 + 3;
-        }
-        else
-        {
-            randDaysToAdd = rand() % 10 + 1;
-        }
-        if (iter->second.hasNoBooks())
-        {
-            return;
-        }
-        string tempBarcode = iter->second.getTopBookFromList();
-        Date temp_date = circulatingPeriodicals[tempBarcode].getCheckOutDate();
-        temp_date.add_days(randDaysToAdd);
-        fout << iter->second.getName() << setw(10) << " returned\t" << 
-            circulatingPeriodicals[tempBarcode].getName() << setw(10) << randDaysToAdd << " days late. " << endl;
-        ReturnToLibrary(circulatingPeriodicals[tempBarcode], iter->second, temp_date);
+		if (iter->second.hasNoBooks()) continue;
+		if (iter->second.isLazy()) randDaysToAdd = rand() % 30 + 3;
+        else randDaysToAdd = rand() % 10 + 1;
+
+        string barcode = iter->second.getTopBookFromList();
+		Date returnDate = circulatingPeriodicals[barcode].getCheckOutDate();
+		returnDate.add_days(randDaysToAdd);
+		ReturnToLibrary(circulatingPeriodicals[barcode], iter->second, returnDate);
+
+		cout << iter->second.getName() << setw(10) << " returned " << circulatingPeriodicals[barcode].getName() << " after " << randDaysToAdd << " days." << endl;
     }
 }
 
 void Library::ExecuteSimulator()
 {
-    int counter = 0;
     ofstream fout("SimulatorData.txt");
     while (!circulatingPeriodicals.empty())
     {
         SimulateEmployeeAction(fout);
-        counter ++;
-        if (counter > 200)
-        {
-            return;
-        }
     }
     fout.close();
 }
