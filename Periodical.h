@@ -51,7 +51,8 @@ public:
 
     bool morePeopleInQueue(){ return !empQueue.empty(); }
 
-    void passToNextEmployee(Date currentDate, map<string,Employee>& empMap){
+	// returns bool indicating whether or not it could pass to another person
+    bool passToNextEmployee(Date currentDate, map<string,Employee>& empMap){
 
         stack<Employee> vacationingEmployees;
         Employee nextEmployee;
@@ -73,7 +74,11 @@ public:
             }
             else {
                 //all employees in queue are on vacation
-                cout << "Periodical " << name << " will now be returned to archive." << endl;
+				while (!vacationingEmployees.empty()){
+					empMap[vacationingEmployees.top().getName()].removeBookFromList(barcode); // since they were on vacation the whole time the book was circulating, they don't get a chance to read it
+					vacationingEmployees.pop();
+				}
+				return false;
             }
 
             while (!vacationingEmployees.empty()){
@@ -82,6 +87,7 @@ public:
             }
             empMap[nextEmployee.getName()].addBookToList(barcode);
         }
+		return true;
     }
 
 

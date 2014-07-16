@@ -223,9 +223,17 @@ public:
 	{
 		if (*this == rhs)
 			return *this;
+		/*
+		This doesn't work because, for example, if we are trying to change a date from
+		1/31/2014 to 4/28/2014 it changes the year to 2014, checks if 1/31/2014 valid, then
+		changes the month to 4, and checks if 4/31/2014 is valid before it changes the day.
+		This, of course, throws an exception.
 
 		setYear(rhs.year);
 		setMonth(rhs.month);
+		*/
+		year = rhs.year;
+		month = rhs.month;
 		setDay(rhs.day);
 
 		return *this;

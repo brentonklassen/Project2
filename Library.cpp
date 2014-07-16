@@ -13,17 +13,11 @@ void Library::ReturnToLibraryandPassOn(Periodical& p, Employee& e, Date currentD
 {//Jordan
 	e.removeBookFromList(p.getBarcode());
     e.updateReliability(currentDate, p.getCheckOutDate(), p.getMaxCheckoutDuration());
-	if (p.morePeopleInQueue())
-	{
-		p.passToNextEmployee(currentDate, employees);
-		return;
-	}
-    else
-    {
+	if (p.morePeopleInQueue() && p.passToNextEmployee(currentDate, employees)) return;
+    else {
         p.setCheckedOut(false);
         p.setArchiveDate(currentDate);
         ArchivePeriodical(p);
-		return;
     }
 }
 
