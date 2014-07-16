@@ -11,16 +11,16 @@ using namespace std;
 // if the periodical was passed to another employee, that employee is returned
 void Library::ReturnToLibraryandPassOn(Periodical& p, Employee& e, Date currentDate)
 {//Jordan
-	p.setCheckedOut(false);
 	e.removeBookFromList(p.getBarcode());
     e.updateReliability(currentDate, p.getCheckOutDate(), p.getMaxCheckoutDuration());
-	if (p.morePeopleInQueue() && !p.isCheckedOut())
+	if (p.morePeopleInQueue())
 	{
 		p.passToNextEmployee(currentDate, employees);
 		return;
 	}
     else
     {
+        p.setCheckedOut(false);
         p.setArchiveDate(currentDate);
         ArchivePeriodical(p);
 		return;
