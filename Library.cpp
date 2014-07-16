@@ -9,20 +9,21 @@
 using namespace std;
 
 // if the periodical was passed to another employee, that employee is returned
-Employee Library::ReturnToLibraryandPassOn(Periodical& p, Employee& e, Date currentDate)
+void Library::ReturnToLibraryandPassOn(Periodical& p, Employee& e, Date currentDate)
 {//Jordan
 	p.setCheckedOut(false);
 	e.removeBookFromList(p.getBarcode());
     e.updateReliability(currentDate, p.getCheckOutDate(), p.getMaxCheckoutDuration());
 	if (p.morePeopleInQueue() && !p.isCheckedOut())
 	{
-		return p.passToNextEmployee(currentDate, employees);
+		p.passToNextEmployee(currentDate, employees);
+		return;
 	}
     else
     {
         p.setArchiveDate(currentDate);
         ArchivePeriodical(p);
-		return Employee();
+		return;
     }
 }
 
@@ -43,7 +44,7 @@ void Library::SimulateEmployeeAction(ostream& outputStream)
 
 		outputStream << iter->second.getName() << " returned " << circulatingPeriodicals[barcode].getName() << " after " << randDaysToAdd << " days." << endl;
 
-		Employee nextEmployee = ReturnToLibraryandPassOn(circulatingPeriodicals[barcode], iter->second, returnDate);
+		ReturnToLibraryandPassOn(circulatingPeriodicals[barcode], iter->second, returnDate);
     }
 }
 
@@ -119,7 +120,7 @@ void Library::buildPriorityQueues(Date currentDate){
 	//Brenton
 	for (map<string,Periodical>::iterator itr = circulatingPeriodicals.begin(); itr != circulatingPeriodicals.end(); itr++){
 		itr->second.generateEmpQueue(employees);
-		Employee firstEmployee = itr->second.passToNextEmployee(currentDate, employees);
+		itr->second.passToNextEmployee(currentDate, employees);
 	}
 }
 

@@ -51,7 +51,7 @@ public:
 
 	bool morePeopleInQueue(){ return !empQueue.empty(); }
 
-	Employee passToNextEmployee(Date currentDate, map<string,Employee>& empMap){
+	void passToNextEmployee(Date currentDate, map<string,Employee>& empMap){
 
 		stack<Employee> vacationingEmployees;
 		Employee nextEmployee;
@@ -80,9 +80,7 @@ public:
 				vacationingEmployees.pop();
 			}
 			empMap[nextEmployee.getName()].addBookToList(barcode);
-			nextEmployee.addBookToList(barcode);
 			CheckedOut = true;
-			return nextEmployee;
 		}
 	}
 

@@ -10,7 +10,7 @@ Library class header
 
 class Library { //implemented by Jordan
 public:
-	Employee ReturnToLibraryandPassOn(Periodical&, Employee&, Date);
+	void ReturnToLibraryandPassOn(Periodical&, Employee&, Date);
 	void ReadPeriodicalsFromFile();
 	void ReadEmployeesFromFile();
     void SimulateEmployeeAction(ostream&);
