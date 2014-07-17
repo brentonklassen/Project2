@@ -49,13 +49,11 @@ void Library::ExecuteSimulator()
     {
         SimulateEmployeeAction(simulatorFile);
     }
+    employees.begin()->second.PrintEmployeeDataBeforeNextSim(simulatorFile, employees);
 	simulatorFile.close();
 }
 
-void Library::SaveSimulatorData(ostream& outputStream)
-{
-    
-}
+
 
 
 void Library::ReadPeriodicalsFromFile()

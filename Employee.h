@@ -67,6 +67,16 @@ public:
 		return empname == other.empname;
 	}
 
+    void PrintEmployeeDataBeforeNextSim(ostream& out, const map<string,Employee>& empMap)
+    {
+        map<string,Employee>::const_iterator iter;
+        out << endl << "-----------------------------------" << endl << "-------------------------------" << endl;
+        for (iter = empMap.begin(); iter != empMap.end(); iter ++)
+        {
+            out << iter->first << " late days: " << setw(20 - iter->first.size()) << iter->second.getLateDays() << setw(4) << ".\t Total waiting time: \t" << iter->second.getWaitingTime() << endl;  
+        }
+    }
+
 private:
 	string empname;
 	int lateDays;

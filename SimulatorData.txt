@@ -43,3 +43,14 @@ Evan Bell returned Science Digest after 2 days.
 George Johnson returned Science Digest after 5 days.
 John Smith returned Fortune after 6 days.
 Evan Bell returned Fortune after 4 days.
+
+-----------------------------------
+-------------------------------
+Ashley Robinson late days:    40.	 Total waiting time: 	0
+Brenton Klassen late days:    92.	 Total waiting time: 	0
+Evan Bell late days:          -7.	 Total waiting time: 	0
+George Johnson late days:      5.	 Total waiting time: 	0
+Jim Brown late days:         -16.	 Total waiting time: 	0
+John Smith late days:         96.	 Total waiting time: 	0
+Jordan Larson late days:      -8.	 Total waiting time: 	0
+Kim Kardashian late days:    -21.	 Total waiting time: 	0
