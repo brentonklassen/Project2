@@ -35,7 +35,7 @@ public:
 
 	void setVacationStart(const Date& d) { vacationStart = d; }
 	void setVacationEnd(const Date& d) { vacationEnd = d; }
-	void setWaitingTime(const int& t) { waiting_time = t; }
+	void addWaitingTime(const int& t) { waiting_time += t; }
 	void addBookToList(string& b) { books.insert(b); }
 	string getTopBookFromList() { return *books.begin(); }
 	void removeBookFromList(string& b) {
@@ -67,15 +67,15 @@ public:
 		return empname == other.empname;
 	}
 
-    void PrintEmployeeDataBeforeNextSim(ostream& out, const map<string,Employee>& empMap)
-    {
-        map<string,Employee>::const_iterator iter;
-        out << endl << "-----------------------------------" << endl << "-------------------------------" << endl;
-        for (iter = empMap.begin(); iter != empMap.end(); iter ++)
-        {
-            out << iter->first << " late days: " << setw(20 - iter->first.size()) << iter->second.getLateDays() << setw(4) << ".\t Total waiting time: \t" << iter->second.getWaitingTime() << endl;  
-        }
-    }
+	void PrintEmployeeDataBeforeNextSim(ostream& out, const map<string, Employee>& empMap)
+	{
+		map<string, Employee>::const_iterator iter;
+		out << endl << "-----------------------------------" << endl << "-------------------------------" << endl;
+		for (iter = empMap.begin(); iter != empMap.end(); iter++)
+		{
+			out << iter->first << " late days: " << setw(20 - iter->first.size()) << iter->second.getLateDays() << setw(4) << ".\t Total waiting time: \t" << iter->second.getWaitingTime() << endl;
+		}
+	}
 
 private:
 	string empname;

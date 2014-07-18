@@ -8,12 +8,14 @@
 #include "HelperFunctions.h"
 using namespace std;
 
+Library::Library(Date current) :currentDate(current){}
+
 // if the periodical was passed to another employee, that employee is returned
-void Library::ReturnToLibraryandPassOn(Periodical& p, Employee& e, Date currentDate)
+void Library::ReturnToLibraryandPassOn(Periodical& p, Employee& e, Date currentDate, int daysLate)
 {//Jordan
 	e.removeBookFromList(p.getBarcode());
     e.updateReliability(currentDate, p.getCheckOutDate(), p.getMaxCheckoutDuration());
-	if (p.morePeopleInQueue() && p.passToNextEmployee(currentDate, employees)) return;
+	if (p.morePeopleInQueue() && p.passToNextEmployee(currentDate, daysLate, employees)) return;
     else {
         p.setCheckedOut(false);
         p.setArchiveDate(currentDate);
@@ -26,27 +28,24 @@ void Library::SimulateEmployeeAction(ostream& outputStream)
 	int randDaysToAdd;
 	for (map<string, Employee>::iterator iter = employees.begin(); iter != employees.end(); iter++)
     {
-		bool test = (iter->second.getName() == "Ashley Robinson");
-
 		if (iter->second.hasNoBooks()) continue;
-		if (iter->second.isLazy()) randDaysToAdd = rand() % 30 + 3;
-        else randDaysToAdd = rand() % 10 + 1;
+		if (iter->second.isLazy()) randDaysToAdd = rand() % 6;
+        else randDaysToAdd = rand() % 2;
 
         string barcode = iter->second.getTopBookFromList();
-		Date returnDate = circulatingPeriodicals[barcode].getCheckOutDate();
-		returnDate.add_days(randDaysToAdd);
 
 		outputStream << iter->second.getName() << " returned " << circulatingPeriodicals[barcode].getName() << " after " << randDaysToAdd << " days." << endl;
 
-		ReturnToLibraryandPassOn(circulatingPeriodicals[barcode], iter->second, returnDate);
+		ReturnToLibraryandPassOn(circulatingPeriodicals[barcode], iter->second, currentDate, randDaysToAdd);
     }
 }
 
-void Library::ExecuteSimulator()
+void Library::ExecuteSimulator() // Jordan's function
 {
     ofstream simulatorFile("SimulatorData.txt");
     while (!circulatingPeriodicals.empty())
     {
+		currentDate.add_days(7);
         SimulateEmployeeAction(simulatorFile);
     }
     employees.begin()->second.PrintEmployeeDataBeforeNextSim(simulatorFile, employees);
@@ -108,11 +107,11 @@ void Library::ReadEmployeesFromFile()
 }
 
 
-void Library::buildPriorityQueues(Date currentDate){
+void Library::buildPriorityQueues(){
 	//Brenton
 	for (map<string,Periodical>::iterator itr = circulatingPeriodicals.begin(); itr != circulatingPeriodicals.end(); itr++){
 		itr->second.generateEmpQueue(employees);
-		itr->second.passToNextEmployee(currentDate, employees);
+		itr->second.passToNextEmployee(currentDate, 0, employees);
 	}
 }
 

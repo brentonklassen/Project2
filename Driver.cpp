@@ -4,10 +4,10 @@
 
 int main()
 {
-	Library myLib;
+	Library myLib(Date("8/31/2014"));
 	myLib.ReadPeriodicalsFromFile();
 	myLib.ReadEmployeesFromFile();
-	myLib.buildPriorityQueues(Date("8/13/2014")); 
+	myLib.buildPriorityQueues(); 
     myLib.ExecuteSimulator();
 	
 	system("pause");

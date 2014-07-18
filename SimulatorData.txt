@@ -1,56 +1,59 @@
-Ashley Robinson returned Rural Sociology after 14 days.
-Evan Bell returned Rural Sociology after 8 days.
-George Johnson returned Industrial Psychology after 7 days.
+Ashley Robinson returned Rural Sociology after 5 days.
+Evan Bell returned Rural Sociology after 1 days.
+Jordan Larson returned Rural Sociology after 0 days.
+Ashley Robinson returned American Motorist after 4 days.
+Evan Bell returned American Motorist after 1 days.
+John Smith returned Rural Sociology after 4 days.
+Jordan Larson returned American Motorist after 0 days.
+Kim Kardashian returned Rural Sociology after 0 days.
+Ashley Robinson returned Modern Industry after 4 days.
+Evan Bell returned Modern Industry after 0 days.
+Jim Brown returned Rural Sociology after 1 days.
+John Smith returned American Motorist after 5 days.
+Jordan Larson returned Modern Industry after 1 days.
+Kim Kardashian returned American Motorist after 1 days.
+Ashley Robinson returned Fortune after 1 days.
+Brenton Klassen returned Rural Sociology after 5 days.
+Evan Bell returned Fortune after 1 days.
+George Johnson returned Rural Sociology after 2 days.
+Jim Brown returned American Motorist after 1 days.
+John Smith returned Modern Industry after 0 days.
+Jordan Larson returned Fortune after 1 days.
+Kim Kardashian returned Modern Industry after 0 days.
+Ashley Robinson returned Industrial Psychology after 2 days.
+Brenton Klassen returned American Motorist after 3 days.
+Evan Bell returned Industrial Psychology after 0 days.
+George Johnson returned American Motorist after 4 days.
+Jim Brown returned Modern Industry after 1 days.
+John Smith returned Fortune after 2 days.
+Jordan Larson returned Industrial Psychology after 0 days.
+Kim Kardashian returned Fortune after 1 days.
+Ashley Robinson returned Science Digest after 5 days.
+Brenton Klassen returned Modern Industry after 0 days.
+Evan Bell returned Science Digest after 1 days.
+George Johnson returned Modern Industry after 0 days.
+Jim Brown returned Fortune after 1 days.
+John Smith returned Industrial Psychology after 4 days.
+Jordan Larson returned Science Digest after 1 days.
+Kim Kardashian returned Industrial Psychology after 1 days.
+Brenton Klassen returned Fortune after 1 days.
+George Johnson returned Fortune after 0 days.
 Jim Brown returned Industrial Psychology after 1 days.
-John Smith returned Modern Industry after 32 days.
-Jordan Larson returned Rural Sociology after 5 days.
-Brenton Klassen returned Industrial Psychology after 21 days.
-Evan Bell returned American Motorist after 9 days.
-Jim Brown returned Science Digest after 3 days.
-John Smith returned Rural Sociology after 17 days.
-Jordan Larson returned American Motorist after 6 days.
-Kim Kardashian returned Rural Sociology after 6 days.
-Jim Brown returned Rural Sociology after 2 days.
-John Smith returned American Motorist after 30 days.
-Jordan Larson returned Modern Industry after 2 days.
-Kim Kardashian returned Industrial Psychology after 2 days.
-Brenton Klassen returned Rural Sociology after 28 days.
-George Johnson returned Rural Sociology after 5 days.
-John Smith returned Industrial Psychology after 30 days.
-Jordan Larson returned Fortune after 7 days.
-Kim Kardashian returned Science Digest after 2 days.
-Brenton Klassen returned American Motorist after 27 days.
-Evan Bell returned Industrial Psychology after 3 days.
-George Johnson returned American Motorist after 6 days.
-John Smith returned Science Digest after 25 days.
-Jordan Larson returned Industrial Psychology after 3 days.
-Kim Kardashian returned American Motorist after 2 days.
-Brenton Klassen returned Modern Industry after 29 days.
-George Johnson returned Modern Industry after 11 days.
-Jim Brown returned American Motorist after 6 days.
-Ashley Robinson returned American Motorist after 20 days.
-Brenton Klassen returned Science Digest after 9 days.
-George Johnson returned Fortune after 14 days.
-Jim Brown returned Modern Industry after 9 days.
-Jordan Larson returned Science Digest after 10 days.
-Kim Kardashian returned Modern Industry after 3 days.
-Brenton Klassen returned Fortune after 20 days.
-Evan Bell returned Modern Industry after 10 days.
-Jim Brown returned Fortune after 6 days.
-Kim Kardashian returned Fortune after 5 days.
-Ashley Robinson returned Modern Industry after 26 days.
-Evan Bell returned Science Digest after 2 days.
-George Johnson returned Science Digest after 5 days.
-John Smith returned Fortune after 6 days.
-Evan Bell returned Fortune after 4 days.
+John Smith returned Science Digest after 3 days.
+Kim Kardashian returned Science Digest after 0 days.
+Brenton Klassen returned Industrial Psychology after 3 days.
+George Johnson returned Industrial Psychology after 3 days.
+Jim Brown returned Science Digest after 0 days.
+Brenton Klassen returned Science Digest after 3 days.
+George Johnson returned Science Digest after 1 days.
 
 -----------------------------------
 -------------------------------
-Ashley Robinson late days:    40.	 Total waiting time: 	0
-Brenton Klassen late days:    92.	 Total waiting time: 	0
-Evan Bell late days:          -7.	 Total waiting time: 	0
-George Johnson late days:      5.	 Total waiting time: 	0
-Jim Brown late days:         -16.	 Total waiting time: 	0
-John Smith late days:         96.	 Total waiting time: 	0
-Jordan Larson late days:      -8.	 Total waiting time: 	0
-Kim Kardashian late days:    -21.	 Total waiting time: 	0
+Ashley Robinson late days:   101.	 Total waiting time: 	42
+Brenton Klassen late days:     0.	 Total waiting time: 	47
+Evan Bell late days:         -42.	 Total waiting time: 	63
+George Johnson late days:    -42.	 Total waiting time: 	57
+Jim Brown late days:           1.	 Total waiting time: 	45
+John Smith late days:          1.	 Total waiting time: 	45
+Jordan Larson late days:     -42.	 Total waiting time: 	46
+Kim Kardashian late days:    -42.	 Total waiting time: 	60

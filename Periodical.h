@@ -52,7 +52,7 @@ public:
     bool morePeopleInQueue(){ return !empQueue.empty(); }
 
 	// returns bool indicating whether or not it could pass to another person
-    bool passToNextEmployee(Date currentDate, map<string,Employee>& empMap){
+    bool passToNextEmployee(Date currentDate, int daysLate, map<string,Employee>& empMap){
 
         stack<Employee> vacationingEmployees;
         Employee nextEmployee;
@@ -66,7 +66,6 @@ public:
                 vacationingEmployees.push(empQueue.top());
                 empQueue.pop();
             }
-            checkOutDate = currentDate;
             if (!empQueue.empty()){
                 cout << empQueue.top().getName() << " got " << name << endl;
                 nextEmployee = empQueue.top();
@@ -85,7 +84,9 @@ public:
                 empQueue.push(vacationingEmployees.top());
                 vacationingEmployees.pop();
             }
+			checkOutDate = currentDate;
             empMap[nextEmployee.getName()].addBookToList(barcode);
+			empMap[nextEmployee.getName()].addWaitingTime(7+daysLate);
         }
 		return true;
     }
